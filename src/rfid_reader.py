@@ -5,10 +5,19 @@ if sys.platform == "win32":
     print("Эмуляция RFID на Windows.")
 
     class SimpleMFRC522:
+        cards = [
+            (123456789, "AdminCard"),
+            (987654321, "UserCard"),
+            (111222333, "GuestCard")
+        ]
+        card_index = 0
+
         @staticmethod
         def read():
-            print("Симуляция чтения карты. Возвращается ID 123456789 и текст 'TestUser'.")
-            return 123456789, "TestUser"
+            card = SimpleMFRC522.cards[SimpleMFRC522.card_index]
+            SimpleMFRC522.card_index = (SimpleMFRC522.card_index + 1) % len(SimpleMFRC522.cards)
+            print(f"Симуляция чтения карты. Возвращается ID {card[0]} и текст '{card[1]}'.")
+            return card[0], card[1]
 
         @staticmethod
         def write(data):
@@ -21,7 +30,6 @@ else:
 reader = SimpleMFRC522()
 
 def read_card():
-    """Чтение данных с карты"""
     try:
         print("Приложите карту к считывателю...")
         card_id, text = reader.read()
@@ -33,7 +41,6 @@ def read_card():
         GPIO.cleanup()
 
 def write_card(data):
-    """Запись данных на карту"""
     try:
         print("Приложите карту для записи...")
         reader.write(data)
