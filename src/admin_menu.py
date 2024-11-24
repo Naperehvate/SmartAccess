@@ -34,20 +34,14 @@ def admin_menu():
 
 def emulate_system():
     print("\n--- Эмуляция работы системы ---")
-    # Пример заранее зарегистрированных ID карт
-    registered_cards = ["123456789", "987654321"]
-    
-    for card_id in ["123456789", "987654321", "555555555"]:  # Тестируем существующую и неизвестную карты
-        log_event(f"Эмуляция проверки карты ID {card_id}.")
+    test_cards = ["123456789", "987654321", "555555555"]
+
+    for card_id in test_cards:
         print(f"\nПроверка карты ID {card_id}...")
         user = check_access(card_id)
-        
         if user:
             print(f"Доступ предоставлен: {user[0]} (ID карты: {card_id}).")
         else:
-            if card_id not in registered_cards:
-                print(f"Карта ID {card_id} не зарегистрирована в системе.")
-            else:
-                print(f"Доступ запрещён для карты ID {card_id}: причина неизвестна.")
+            print(f"Доступ запрещён. Карта ID {card_id} отсутствует в базе данных.")
 
         
