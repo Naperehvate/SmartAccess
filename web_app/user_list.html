@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список пользователей</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Список пользователей</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID карты</th>
+                    <th>Имя</th>
+                    <th>Уровень доступа</th>
+                </tr>
+            </thead>
+            <tbody id="user-table">
+                <!-- Данные будут загружаться с сервера -->
+            </tbody>
+        </table>
+        <a href="index.html">Вернуться на главную</a>
+    </div>
+    <script>
+        // Загрузка списка пользователей
+        fetch('/get_users')
+            .then(response => response.json())
+            .then(users => {
+                const userTable = document.getElementById('user-table');
+                users.forEach(user => {
+                    const row = `<tr>
+                        <td>${user.card_id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.access_level}</td>
+                    </tr>`;
+                    userTable.innerHTML += row;
+                });
+            })
+            .catch(error => console.error('Ошибка загрузки пользователей:', error));
+    </script>
+</body>
+</html>
