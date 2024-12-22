@@ -1,36 +1,30 @@
 import sys
+import time
 from gpio_manager import GPIO
 
+# Импорт класса SimpleMFRC522
 if sys.platform == "win32":
-    print("Эмуляция RFID на Windows.")
-
-    class SimpleMFRC522:
-        @staticmethod
-        def read():
-            card_id = input("Введите ID карты (симуляция): ")
-            return card_id, "TestCard"
-
-        @staticmethod
-        def write(data):
-            print(f"Симуляция записи данных: {data}")
-
+    from Win.rfid_simulator import SimpleMFRC522
 else:
-    print("Использование реального считывателя RFID на Raspberry Pi.")
     from mfrc522 import SimpleMFRC522
 
 reader = SimpleMFRC522()
 
+# Обновлённый метод чтения карты
 def read_card():
     try:
         print("Приложите карту к считывателю...")
+        start_time = time.time()
         card_id, text = reader.read()
-        return card_id, text
+        duration = time.time() - start_time
+        return card_id, text, duration
     except Exception as e:
         print(f"Ошибка при чтении карты: {e}")
-        return None, None
+        return None, None, 0
     finally:
         GPIO.cleanup()
 
+# Обновлённый метод записи данных на карту
 def write_card(data):
     try:
         print("Приложите карту для записи...")

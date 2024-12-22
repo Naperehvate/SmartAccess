@@ -1,4 +1,4 @@
-from database_manager import add_user, delete_user, check_access, log_event
+from DB.database_manager import add_user, delete_user, check_access, log_event
 
 def admin_menu():
     while True:
