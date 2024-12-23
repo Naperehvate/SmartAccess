@@ -14,4 +14,4 @@ def cleanup_gpio():
     """Очистка GPIO перед завершением работы."""
     GPIO.cleanup()
 
-    #GPIO.setwarnings(False)  # Отключаем предупреждения для Raspberry Pi
+    GPIO.setwarnings(False)  # Отключаем предупреждения для Raspberry Pi
