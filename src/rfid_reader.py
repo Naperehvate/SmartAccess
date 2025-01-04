@@ -9,28 +9,29 @@ else:
     from mfrc522 import SimpleMFRC522
 
 reader = SimpleMFRC522()
+my_list_card = []
+temp_card = None
 
 # Чтение карты
 def read_card():
+    global temp_card
     try:
-        print("Приложите карту к считывателю...")
-        start_time = time.time()
+        print("Считывание карты. Поднесите карту к считывателю...")
         card_id, text = reader.read()
-        duration = time.time() - start_time
-        return card_id, text, duration
+        if temp_card == card_id:
+            if len(my_list_card) < 3:
+                my_list_card.append(card_id)
+            card_id, text = reader.read()
+        else:
+            #card_id, text = reader.read()
+            my_list_card.clear()
+        temp_card = card_id
+        attach_card = len(my_list_card)
+        print (f"ID карты: {card_id} Текст: {text} Приложили эту карту: {attach_card + 1}")
+        time.sleep(1)
+        return card_id, text, attach_card
     except Exception as e:
         print(f"Ошибка при чтении карты: {e}")
         return None, None, 0
     finally:
-        GPIO.cleanup()
-
-# Обновлённый метод записи данных на карту
-def write_card(data):
-    try:
-        print("Приложите карту для записи...")
-        reader.write(data)
-        print("Данные записаны.")
-    except Exception as e:
-        print(f"Ошибка при записи данных: {e}")
-    finally:
-        GPIO.cleanup()
+        pass
