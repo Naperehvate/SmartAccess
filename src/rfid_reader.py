@@ -17,6 +17,7 @@ def read_card():
     global temp_card
     try:
         print("Считывание карты. Поднесите карту к считывателю...")
+        time.sleep(2)
         card_id, text = reader.read()
         if temp_card == card_id:
             if len(my_list_card) < 3:

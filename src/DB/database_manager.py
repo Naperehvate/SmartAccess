@@ -86,7 +86,7 @@ def add_user(card_id, name, access_level=1):
             (card_id, name, access_level),
             commit=True
         )
-        print(f"Пользователь {name} успешно добавлен.")
+        print(f"Пользователь {name} успешно добавлен в БД.")
         log_event("USER_ADDED", f"Пользователь: {name}, карта ID: {card_id}, уровень доступа: {access_level}")
         return True
     except sqlite3.IntegrityError:
@@ -100,7 +100,7 @@ def delete_user(card_id):
         "DELETE FROM users WHERE card_id = ?", (card_id,), commit=True
     )
     if db_manager.cursor.rowcount > 0:
-        print(f"Пользователь с ID карты {card_id} успешно удалён.")
+        print(f"Пользователь с ID карты {card_id} успешно удалён из БД.")
         log_event("USER_DELETED", f"Удалён пользователь с картой ID: {card_id}")
         return True
     else:
