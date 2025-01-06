@@ -7,9 +7,9 @@ def run_operational_mode():
     print("Запуск в рабочем режиме. Ctrl+C для выхода.")
     try:
         while True:
-            card_id, text, duration = read_card()
+            card_id, text, attach_card = read_card()
             if card_id:
-                process_access(card_id, duration)
+                process_access(card_id, attach_card)
             else:
                 print("Не удалось считать карту.")
     except KeyboardInterrupt:

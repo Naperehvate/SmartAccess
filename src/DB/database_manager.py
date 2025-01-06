@@ -88,9 +88,11 @@ def add_user(card_id, name, access_level=1):
         )
         print(f"Пользователь {name} успешно добавлен.")
         log_event("USER_ADDED", f"Пользователь: {name}, карта ID: {card_id}, уровень доступа: {access_level}")
+        return True
     except sqlite3.IntegrityError:
         print("Ошибка: Пользователь с таким ID карты уже существует.")
         log_event("ERROR", f"Ошибка при добавлении пользователя: карта ID {card_id} уже существует.")
+        return False
 
 
 def delete_user(card_id):
@@ -100,9 +102,11 @@ def delete_user(card_id):
     if db_manager.cursor.rowcount > 0:
         print(f"Пользователь с ID карты {card_id} успешно удалён.")
         log_event("USER_DELETED", f"Удалён пользователь с картой ID: {card_id}")
+        return True
     else:
         print("Пользователь с таким ID карты не найден.")
         log_event("ERROR", f"Попытка удаления несуществующего пользователя с картой ID: {card_id}")
+        return False
 
 
 def get_user(card_id):

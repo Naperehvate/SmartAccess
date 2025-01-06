@@ -9,5 +9,5 @@ def initialize_system():
     set_setting("door_open_time", 3)  # Устанавливаем время открытия двери по умолчанию
     if sys.platform == "win32":
         admin_menu()
-    #else:
+    else:
         run_operational_mode()

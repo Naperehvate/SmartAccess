@@ -23,7 +23,6 @@ def read_card():
                 my_list_card.append(card_id)
             card_id, text = reader.read()
         else:
-            #card_id, text = reader.read()
             my_list_card.clear()
         temp_card = card_id
         attach_card = len(my_list_card)
@@ -35,3 +34,12 @@ def read_card():
         return None, None, 0
     finally:
         pass
+
+
+def get_card_id_RFID():
+    try:
+        card_id, text = reader.read()
+        return card_id
+    except Exception as e:
+        print(f"Ошибка при чтении карты: {e}")
+        return None
