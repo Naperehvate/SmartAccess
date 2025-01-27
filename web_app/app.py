@@ -4,11 +4,12 @@ import os
 from flask import Flask, render_template, request, jsonify
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from src.DB.database_manager import add_user, delete_user, get_all_users
-
-
+from src.DB.database_manager import *
 
 app = Flask(__name__)
+
+# Инициализация базы данных перед использованием
+create_database()
 
 @app.route('/')
 def index():
@@ -25,7 +26,7 @@ def user_list():
 @app.route('/get_users')
 def get_users():
     try:
-        users = get_all_users()  # Получаем список пользователей из базы данных
+        users = get_all_users()
         return jsonify(users)
     except Exception as e:
         return jsonify({"error": f"Ошибка загрузки пользователей: {str(e)}"}), 500

@@ -115,9 +115,8 @@ def get_user(card_id):
     )
 
 def get_all_users():
-    return db_manager.execute(
-        "SELECT * FROM users", fetchall=True
-    )
+    users = db_manager.execute("SELECT card_id, name, access_level FROM users", fetchall=True)
+    return [{"card_id": user[0], "name": user[1], "access_level": user[2]} for user in users]
 
 def check_access(card_id):
     user = get_user(card_id)
