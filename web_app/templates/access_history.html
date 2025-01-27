@@ -3,26 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список пользователей</title>
+    <title>История доступа</title>
     <link rel="stylesheet" href="../static/styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Список пользователей</h1>
+        <h1>История доступа</h1>
         <table>
             <thead>
                 <tr>
-                    <th>ID карты</th>
-                    <th>Имя</th>
-                    <th>Уровень доступа</th>
+                    <th>ID</th>
+                    <th>Тип</th>
+                    <th>Детали</th>
+                    <th>Время</th>
                 </tr>
             </thead>
-            <tbody id="user-table">
+            <tbody id="logs-table">
                 <!-- Данные с сервера -->
             </tbody>
         </table>
         <a href="/">Вернуться на главную</a>
     </div>
-    <script src="../static/user_list.js"></script>
+    <script src="../static/access_history.js"></script>
 </body>
 </html>

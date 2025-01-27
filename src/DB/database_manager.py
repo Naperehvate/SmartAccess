@@ -77,6 +77,9 @@ def log_event(event_type, event_details=None):
         commit=True
     )
 
+def get_all_logs():
+    logs = db_manager.execute("SELECT * FROM logs", fetchall=True)
+    return [{"id": log[0], "event_type": log[1], "event_details": log[2], "timestamp": log[3]} for log in logs]
 
 # Работа с пользователями
 def add_user(card_id, name, access_level=1):

@@ -7,9 +7,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from src.DB.database_manager import *
 
 app = Flask(__name__)
-
-# Инициализация базы данных перед использованием
 create_database()
+
 
 @app.route('/')
 def index():
@@ -23,6 +22,10 @@ def admin_menu():
 def user_list():
     return render_template('user_list.html')
 
+@app.route('/access_history')
+def access_history():
+    return render_template('access_history.html')
+
 @app.route('/get_users')
 def get_users():
     try:
@@ -30,6 +33,15 @@ def get_users():
         return jsonify(users)
     except Exception as e:
         return jsonify({"error": f"Ошибка загрузки пользователей: {str(e)}"}), 500
+    
+
+@app.route('/accsess_history_logs')
+def get_access_history():
+    try:
+        history = get_all_logs()
+        return jsonify(history)
+    except Exception as e:
+        return jsonify({"error": f"Ошибка загрузки истории доступа: {str(e)}"}), 500
 
 @app.route('/add_user', methods=['POST'])
 def add_user_route():
@@ -38,8 +50,7 @@ def add_user_route():
         card_id = data['card_id']
         name = data['name']
         access_level = int(data['access_level'])
-
-        add_user(card_id, name, access_level)  # Добавляем пользователя в базу данных
+        add_user(card_id, name, access_level)
         return jsonify({"message": "Пользователь успешно добавлен!"})
     except Exception as e:
         return jsonify({"error": f"Ошибка добавления пользователя: {str(e)}"}), 500
