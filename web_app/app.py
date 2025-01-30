@@ -9,7 +9,7 @@ from src.DB.database_manager import *
 app = Flask(__name__)
 create_database()
 
-
+# Страницы
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -26,6 +26,9 @@ def user_list():
 def access_history():
     return render_template('access_history.html')
 
+
+
+# Работа с запросами
 @app.route('/get_users')
 def get_users():
     try:
@@ -65,6 +68,27 @@ def delete_user_route():
         return jsonify({"message": "Пользователь успешно удален!"})
     except Exception as e:
         return jsonify({"error": f"Ошибка удаления пользователя: {str(e)}"}), 500
+
+
+
+
+# Авторизация
+
+@app.route('/login', methods=['POST'])
+def login():
+    try:
+        data = request.get_json()
+        username = data['username']
+        password = data['password']
+        
+        # Здесь должна быть логика проверки пользователя в базе данных     
+        # Временная заглушка
+        if username == "admin" and password == "admin":
+            return jsonify({"message": "Авторизация успешна!"})
+        else:
+            return jsonify({"error": "Неверное имя пользователя или пароль"}), 401
+    except Exception as e:
+        return jsonify({"error": f"Ошибка авторизации: {str(e)}"}), 500
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', port=5000, debug=True)
