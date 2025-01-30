@@ -13,7 +13,9 @@ document.getElementById('login-form').addEventListener('submit', function(event)
         if (data.error) {
             alert("Ошибка: " + data.error);
         } else {
-            window.location.href = "/";
+            // Сохраняем флаг авторизации в localStorage
+            localStorage.setItem('isAuthenticated', 'true');
+            window.location.href = "/index";
         }
     })
     .catch(error => {
@@ -21,3 +23,14 @@ document.getElementById('login-form').addEventListener('submit', function(event)
         alert('Произошла ошибка при авторизации.');
     });
 });
+
+
+// Проверяем авторизацию
+window.onload = function() {
+    const isAuthenticated = localStorage.getItem('isAuthenticated');
+    const currentPath = window.location.pathname;
+    
+    if (isAuthenticated && currentPath === "/") {
+        window.location.href = "/index";  // Перенаправляем на главную страницу
+    }
+};

@@ -1,11 +1,33 @@
 <header>
     <nav>
         <ul>
-            <li><a href="/">Главная</a></li>
+            <li><a href="/index">Главная</a></li>
             <li><a href="/admin_menu">Админ-меню</a></li>
             <li><a href="/user_list">Список пользователей</a></li>
             <li><a href="/access_history">История доступа</a></li>
-            <li><a href="/logout">Выйти</a></li>
+            <li><button onclick="logout()">Выйти</button></li>
         </ul>
     </nav>
 </header>
+
+<script>
+    // Проверяем авторизацию
+    window.onload = function() {
+        const isAuthenticated = localStorage.getItem('isAuthenticated');
+        const currentPath = window.location.pathname;
+
+        // Если пользователь не авторизован и находится не на странице авторизации
+        if ((!isAuthenticated || isAuthenticated !== 'true') && currentPath !== "/") {
+            window.location.href = "/";  // Перенаправляем на страницу авторизации
+        }
+        if (isAuthenticated && currentPath === "/") {
+            window.location.href = "/index";  // Перенаправляем на главную страницу
+        }
+    };
+
+    // Функция для выхода из системы
+    function logout() {
+        localStorage.removeItem('isAuthenticated');  // Очищаем авторизацию
+        window.location.href = "/";
+    }
+</script>

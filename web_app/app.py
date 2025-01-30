@@ -11,7 +11,11 @@ create_database()
 
 # Страницы
 @app.route('/')
-def index():
+def login_page():
+    return render_template('login.html')
+
+@app.route('/index')
+def index_page():
     return render_template('index.html')
 
 @app.route('/admin_menu')
