@@ -135,6 +135,28 @@ def check_access(card_id):
         return None
 
 
+def user_exists(card_id):
+    result = db_manager.execute(
+        "SELECT 1 FROM users WHERE card_id = ?", (card_id,), fetchone=True
+    )
+    return result is not None
+
+
+def update_user_name(card_id, new_name):
+    try:
+        db_manager.execute(
+            "UPDATE users SET name = ? WHERE card_id = ?",
+            (new_name, card_id),
+            commit=True
+        )
+        if db_manager.cursor.rowcount > 0:
+            log_event("USER_UPDATED", f"Обновлено имя для карты ID: {card_id}, новое имя: {new_name}")
+            return True
+        return False
+    except Exception as e:
+        log_event("ERROR", f"Ошибка обновления пользователя: {str(e)}")
+        raise
+
 # Работа с настройками
 def set_setting(key, value):
     db_manager.execute(

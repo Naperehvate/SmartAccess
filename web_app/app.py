@@ -73,7 +73,20 @@ def delete_user_route():
     except Exception as e:
         return jsonify({"error": f"Ошибка удаления пользователя: {str(e)}"}), 500
 
-
+@app.route('/edit_user', methods=['POST'])
+def edit_user_route():
+    try:
+        data = request.get_json()
+        card_id = data['card_id']
+        new_name = data['new_name']
+        
+        if not user_exists(card_id):
+            return jsonify({"error": "Пользователь с таким ID карты не найден"}), 404
+            
+        update_user_name(card_id, new_name)
+        return jsonify({"message": "Имя пользователя успешно обновлено!"})
+    except Exception as e:
+        return jsonify({"error": f"Ошибка редактирования пользователя: {str(e)}"}), 500
 
 
 # Авторизация

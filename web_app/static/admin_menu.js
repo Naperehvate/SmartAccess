@@ -57,3 +57,37 @@ function deleteUser() {
         alert('Произошла ошибка при удалении пользователя.');
     });
 }
+
+
+// Редактирование пользователя
+function editUser() {
+    const cardId = prompt("Введите ID карты пользователя для редактирования:").trim();
+    if (!cardId) {
+        alert("Введите ID карты!");
+        return;
+    }
+
+    const newName = prompt("Введите новое имя пользователя:").trim();
+    if (!newName) {
+        alert("Имя пользователя не может быть пустым!");
+        return;
+    }
+
+    fetch('/edit_user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ card_id: cardId, new_name: newName })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert("Ошибка: " + data.error);
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+        alert('Произошла ошибка при редактировании пользователя.');
+    });
+}
