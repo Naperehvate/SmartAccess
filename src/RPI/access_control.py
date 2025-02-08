@@ -33,7 +33,7 @@ def process_access(card_id, attach_card):
 
 def handle_add_user_mode(card_id, access_level):
     if access_level < ACCESS_LEVEL_ADMIN:
-        access_granted(name, card_id, access_level)
+        access_granted(card_id, card_id, access_level)
         return
 
     print("Переход в режим добавления пользователей.")
@@ -63,7 +63,7 @@ def handle_add_user_mode(card_id, access_level):
 
 def handle_delete_user_mode(card_id, access_level):
     if access_level < ACCESS_LEVEL_SUPER_ADMIN:
-        access_granted(name, card_id, access_level)
+        access_granted(card_id, card_id, access_level)
         return
 
     print("Переход в режим удаления пользователей.")
@@ -94,7 +94,7 @@ def handle_delete_user_mode(card_id, access_level):
 
 def handle_open_access_mode(card_id, access_level):
     if access_level < ACCESS_LEVEL_SUPER_ADMIN:
-        access_granted(name, card_id, access_level)
+        access_granted(card_id, card_id, access_level)
         return
 
     print("Переход в режим открытого доступа и добавления пользователей.")
@@ -126,7 +126,7 @@ def handle_open_access_mode(card_id, access_level):
                 print(f"Пользователь уже добавлен в БД: {name} (ID карты: {temp_card} Уровень доступа: {temp_access_level}.)")
                 access_granted(name, temp_card, temp_access_level)
 
-def access_granted(card_id, access_level):
+def access_granted(name, card_id, access_level):
     print(f"Доступ предоставлен:(ID карты: {card_id} access_level: {access_level}).")
     open_door(get_setting("door_open_time", 3))
     indicate_access_granted()
@@ -141,15 +141,22 @@ def check_time_interval():
     current_time = time.time()
     
     while True:
+        card_id = get_card_id_RFID()
+
+        if card_id is None:
+            continue 
+        
+        list_card.append(card_id)
         if len(set(list_card)) > 1:
             print("Множество карт не равно 1. Приложена другая карта.")
+            list_card.clear()
             return False
-        if len(list_card) > 2:
+        if len(list_card) > 5:
+            list_card.clear()
             return True
         if time.time() - current_time > 8:
             print("Превышено время ожидания.")
+            list_card.clear()
             return False
         
-        card_id = get_card_id_RFID()
         time.sleep(0.5)
-        list_card.append(card_id)

@@ -4,7 +4,7 @@
 function addUser() {
     const cardId = prompt("Введите ID карты:").trim();
     const name = prompt("Введите имя пользователя:").trim();
-    const accessLevel = prompt("Введите уровень доступа (1 - стандартный, 2 - админ):").trim();
+    const accessLevel = prompt("Введите уровень доступа (1 - стандартный, 2 - админ, 3 - суперадмин):").trim();
 
     if (!cardId || !name || !accessLevel) {
         alert("Все поля должны быть заполнены!");
