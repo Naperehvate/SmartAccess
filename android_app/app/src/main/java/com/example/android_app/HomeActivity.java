@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+
 public class HomeActivity extends AppCompatActivity {
 
     private Button btnUsers;
@@ -24,13 +25,10 @@ public class HomeActivity extends AppCompatActivity {
         btnUsers.setOnClickListener(v ->
                 startActivity(new Intent(this, UserListActivity.class)));
 
-
         btnHistory.setOnClickListener(v ->
-                // TODO: AccessHistoryActivity
-        {});
+                startActivity(new Intent(this, AccessHistoryActivity.class)));
 
         btnAdmin.setOnClickListener(v ->
-                // TODO:  AdminMenuActivity
-        {});
+                startActivity(new Intent(this, AdminMenuActivity.class)));
     }
 }
